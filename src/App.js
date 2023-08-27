@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import SelectCategory from "./pages/SelectCategory";
+import SelectQuestion from "./pages/SelectQuestion";
+import AnswerQuestion from "./pages/AnswerQuestion";
+import Defaultroute from "./pages/Defaultroute";
+import MyNavbar from "./components/UI/Navbar/MyNavbar";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <MyNavbar></MyNavbar>
+            <Routes>
+                <Route path="/" element={<SelectCategory/>}>
+                </Route>
+                <Route path="/question" element={<SelectQuestion/>}>
+                </Route>
+                <Route path="/answer" element={<AnswerQuestion/>}>
+                </Route>
+                <Route path="*" element={<Defaultroute />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
