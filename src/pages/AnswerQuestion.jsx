@@ -1,22 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {loadCategories, sortCategories} from "../store/categoriesReduser";
-import FetchCategory from "../asyncAction/category";
+import AnsweringQuestion from "../components/AnsweringQuestion";
 
 const AnswerQuestion = () => {
-
-
-    // хук для срабатывания колбэка только один раз при создании объекта SelectCategory()
-    useEffect(() => {
-        console.log("сработало2")
-        // этот колбэк сработает при удалении
-        return () => console.log("завершилось2")
-    }, [])  // массив содержит зависимости при которых хук сработает
-    // (если пуст, то сработает один раз при создании объекта этой страницы)
+    const dispatch = useDispatch()
+    const question = useSelector(state => state.question.curentQuestion)
 
     return (
         <div>
-            Отвечаеем на вопрос
+            <AnsweringQuestion/>
         </div>
     );
 };

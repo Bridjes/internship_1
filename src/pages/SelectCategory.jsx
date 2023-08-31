@@ -1,51 +1,55 @@
 import React, {useEffect, useState} from 'react';
-import FetchCategory from "../asyncAction/category";
+import FetchCategory from "../API/category";
 import {useDispatch, useSelector} from "react-redux";
-import {loadCategories} from "../store/categoriesReduser";
 import MyButton from "../components/UI/Button/MyButton";
 import ListOfButtons from "../components/ListOfButtons";
-import {getRandomDictionaries} from "../utils/convert5Categories";
 import MyLoader from "../components/UI/Loader/MyLoader";
+import FetchQuestions from "../API/questions";
+import {
+    getRandomKeys,
+    groupAndSortByCategory,
+} from "../utils/sortQestions";
+import {useFatching} from "../hooks/useFatching";
+import {loadQuestions} from "../store/questionsReduser";
+import classes from "../components/styles/SelectCategory.component.css"
 
 const SelectCategory = () => {
     // диспетчер Redux
     const dispatch = useDispatch()
-    // переменная состояния от Redux
-    const categories = useSelector(state => state.category.categories)
+    // переменные состояния от Redux
+    const questions = useSelector(state => state.question.questions)
 
-    // переменная состояния
-    const [isLoading, setIsLoading] = useState(false)
+    const [fetchQuestions, isLoading, loadingError] = useFatching(async () => {
+        // получаем JSON со списком вопросов
+        let rst = await FetchQuestions.getAll()
+        // группируем в категории (по 5 вопросов в каждой)
+        rst = groupAndSortByCategory(rst)
+        // срезаем лишние группы, оставляя только 5 случайных
+        rst = getRandomKeys(rst)
+
+        dispatch(loadQuestions(rst))
+    })
 
     // хук для срабатывания колбэка только один раз при создании объекта SelectCategory()
     useEffect(() => {
-        fetchCategories()
+        // загрузит новые списки вопросов, если старые ещё не обнулены
+        if (Object.keys(questions).length === 0) {
+            fetchQuestions()
+        }
+
         // этот колбэк сработает при удалении
         // return () => console.log("завершилось")
-    }, [])  // массив содержит зависимости при которых хук сработает
+    }, [questions])
+    // массив содержит зависимости при которых хук сработает
     // (если пуст, то сработает один раз при создании объекта этой страницы)
-
-    // обрабатывает запрос по API
-    async function fetchCategories() {
-        // статус "Загрузка инфы"
-        setIsLoading(true)
-        // таймаут загузки в 1 с
-        setTimeout(async () => {
-            // получение ответа по API запросу
-            let rst = await FetchCategory.getAll()
-            // срезаем лишние категории, оставляя только 5
-            rst = getRandomDictionaries(rst, 3)
-            // запись в кеш-хранилище
-            dispatch(loadCategories(rst))
-            // статус "Конец загрузки"
-            setIsLoading(false)
-        }, 1000)
-    }
 
     return (
         <div>
             {isLoading
-                ? <MyLoader/>
-                : <ListOfButtons arr={categories}/>
+                ? <div className={"loader-box"}>
+                    <MyLoader/>
+                </div>
+                : <ListOfButtons/>
             }
         </div>
     );

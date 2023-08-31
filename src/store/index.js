@@ -1,9 +1,11 @@
 import {createStore, combineReducers} from "redux";
-import {categoryReduser} from "./categoriesReduser";
+import {questionReduser} from "./questionsReduser";
+import {scoreReduser} from "./scoreReduser";
 
 // объединяем все редьюсеры в один
 const rootReduser = combineReducers({
-    category: categoryReduser
+    question: questionReduser,
+    score: scoreReduser
 })
 
 

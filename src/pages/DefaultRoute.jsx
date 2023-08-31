@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Defaultroute = () => {
+const DefaultRoute = () => {
     return (
         <div>
             404
@@ -8,4 +8,4 @@ const Defaultroute = () => {
     );
 };
 
-export default Defaultroute;
+export default DefaultRoute;
