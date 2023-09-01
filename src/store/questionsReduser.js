@@ -24,5 +24,5 @@ export const questionReduser = (state=defaultSate, action) => {
 
 // Action-creators
 export const loadQuestions = (payload) => ({type: LOAD_QUESTIONS, payload})
-export const resetQuestions = (payload) => ({type: RESET_QUESTIONS, payload})
+export const resetQuestions = (payload) => ({type: RESET_QUESTIONS})
 export const saveCurentQuestion = (payload) => ({type: SAVE_CURENT_QUESTION, payload})

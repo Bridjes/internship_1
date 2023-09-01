@@ -20,4 +20,4 @@ export const scoreReduser = (state=defaultSate, action) => {
 
 // Action-creators
 export const addScore = (payload) => ({type: ADD_SCORE, payload})
-export const resetScore = (payload) => ({type: RESET_SCORE, payload})
+export const resetScore = (payload) => ({type: RESET_SCORE})

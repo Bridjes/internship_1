@@ -3,7 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import classes from './MyNavbar.component.css'
 import {useDispatch, useSelector} from "react-redux";
 import MyButton from "../Button/MyButton";
-import {addScore} from "../../../store/scoreReduser";
+import {addScore, resetScore} from "../../../store/scoreReduser";
 import {loadQuestions, resetQuestions} from "../../../store/questionsReduser";
 import {deleteQuestionById} from "../../../utils/sortQestions";
 
@@ -21,6 +21,7 @@ const MyNavbar = () => {
                 <MyButton
                     onClick={async event => {
                         dispatch(resetQuestions())
+                        dispatch(resetScore())
                         navigate('/')
                     }}
                 >
